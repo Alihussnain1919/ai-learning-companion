@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  @apply bg-slate-50 text-slate-900;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fix the Navbar class */
+.glass {
+  @apply bg-white/80 backdrop-blur-md border-b border-slate-200/50 shadow-sm;
+}
+
+/* Fix the Hero Badge cards */
+.glass-card {
+  @apply bg-white/90 backdrop-blur-lg border border-slate-200 shadow-2xl;
+}
+/* Add this to index.css for high-end look */
+.glass-ui {
+  @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_0_rgba(99,102,241,0.1)];
+}
+
+.btn-primary {
+  @apply bg-indigo-600 text-white px-8 py-4 rounded-2xl font-bold shadow-lg shadow-indigo-200 hover:bg-indigo-700 active:scale-95 transition-all;
+}
