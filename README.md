@@ -1,16 +1,32 @@
-# React + Vite
+# EduAI: Adaptive Learning & Real-Time AI Mentorship 🎓🤖
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://reactjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Perplexity AI](https://img.shields.io/badge/Perplexity_AI-00A294?style=for-the-badge&logo=perplexity&logoColor=white)](https://perplexity.ai)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-Currently, two official plugins are available:
+**EduAI** is a high-fidelity educational ecosystem designed to bridge the gap between static curriculum and real-time knowledge. It features an ethics-first AI tutor capable of performing live academic research to assist students.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Key Features
 
-## React Compiler
+- **🌐 Live-Search AI Tutor:** Integrated with **Perplexity AI (Sonar Model)** to provide real-time, fact-checked answers with web-grounded citations.
+- **🧠 Adaptive Pathing:** A prototype UI demonstrating how AI can adjust learning trajectories based on user mastery.
+- **🛡️ Token-Optimized Security:** Implemented custom middleware logic to manage API consumption, including:
+  - `max_tokens` budgeting.
+  - Search recency filtering (last 30 days).
+  - Graceful fallback (Mock Responses) for quota management.
+- **🤝 Expert Marketplace:** A commission-based ecosystem prototype connecting students with human mentors.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Technical Stack
 
-## Expanding the ESLint configuration
+- **Frontend:** React 18 (Vite)
+- **Styling:** Tailwind CSS (Custom Glassmorphism Design)
+- **Animations:** Framer Motion
+- **AI Integration:** Perplexity REST API (RAG-based search)
+- **Icons:** Lucide-React
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📦 Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/alihussnain1919/ai-learning-companion.git](https://github.com/alihussnain1919/ai-learning-companion.git)
