@@ -6,13 +6,14 @@ import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Features from "./components/Features";
 import TutorMarketplace from "./components/TutorMarketplace";
-import TutorProfile from "./components/TutorProfile"; // New
+import TutorProfile from "./components/TutorProfile"; 
 import EthicsSection from "./components/EthicsSection";
 import Pricing from "./components/Pricing";
 import DashboardMockup from "./components/DashboardMockup";
 import BookingScreen from "./components/BookingScreen";
 import VideoCall from "./components/VideoCall";
 import Footer from "./components/Footer";
+import PracticeScreen from "./components/PracticeScreen"; // NEW IMPORT
 
 
 export default function App() {
@@ -64,7 +65,18 @@ export default function App() {
           {/* AI AGENT DASHBOARD */}
           {view === "dashboard" && (
             <motion.div key="dashboard" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-              <DashboardMockup goBack={() => setView("landing")} onBook={() => setView("booking")} />
+              <DashboardMockup 
+                goBack={() => setView("landing")} 
+                onBook={() => setView("booking")}
+                onStartPractice={() => setView("practice")} // NEW TRIGGER
+              />
+            </motion.div>
+          )}
+
+          {/* PRACTICE SCREEN (NEW VIEW) */}
+          {view === "practice" && (
+            <motion.div key="practice" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+              <PracticeScreen goBack={() => setView("dashboard")} />
             </motion.div>
           )}
 
