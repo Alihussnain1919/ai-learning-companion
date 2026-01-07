@@ -16,76 +16,57 @@ export default function ChatBot() {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, loading]);
+const handleSend = async () => {
+  if (!input.trim()) return;
+  
+  const userMessage = { role: "user", content: input };
+  setMessages(prev => [...prev, userMessage]);
+  const currentInput = input;
+  setInput("");
+  setLoading(true);
 
-  const handleSend = async () => {
-    // SECURITY CHECK 1: Prevent empty or overly long inputs (Saves tokens)
-    if (!input.trim() || input.length > 500) return;
+  try {
+    const API_KEY = import.meta.env.VITE_PPLX_API_KEY;
+
+    const response = await fetch("https://api.perplexity.ai/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        // 1. USE THE LOWEST PRICE MODEL
+        model: "sonar", 
+        messages: [
+          { 
+            role: "system", 
+            content: "Be extremely concise. Answer in 1-2 sentences only." 
+          },
+          { role: "user", content: currentInput }
+        ],
+        // 2. LIMIT TOKENS (This directly saves money)
+        max_tokens: 100, 
+        temperature: 0.1,
+        // 3. OPTIONAL: Standard search domain filters if needed
+        search_domain_filter: ["edu", "gov", "org"], 
+        stream: false
+      }),
+    });
+
+    const data = await response.json();
+    const aiText = data.choices[0].message.content;
     
-    const userMessage = { role: "user", content: input };
-    setMessages(prev => [...prev, userMessage]);
-    const currentInput = input;
-    setInput("");
-    setLoading(true);
+    // Log usage to console so you can track your spending
+    console.log("Tokens used:", data.usage.total_tokens);
 
-    try {
-      const API_KEY = import.meta.env.VITE_PPLX_API_KEY;
-      if (!API_KEY) throw new Error("API Key Missing");
-
-      const response = await fetch("https://api.perplexity.ai/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${API_KEY}`,
-          "Content-Type": "application/json",
-          "accept": "application/json"
-        },
-        body: JSON.stringify({
-          model: "sonar", 
-          messages: [
-            { 
-              role: "system", 
-              content: "You are a concise academic tutor. Answer in 2-3 sentences. Focus on high-quality search results." 
-            },
-            { role: "user", content: currentInput }
-          ],
-          // SECURITY CHECK 2: Max tokens set to 150 to minimize cost per query
-          max_tokens: 150, 
-          temperature: 0.2,
-          // SECURITY CHECK 3: Recency filter ensures efficient search crawling
-          search_recency_filter: "month", 
-          stream: false
-        }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        // Handle '429 Too Many Requests' or '402 Payment Required'
-        if (response.status === 429 || response.status === 402) {
-            throw new Error("QUOTA_EXCEEDED");
-        }
-        throw new Error(errorData.error?.message || "API Error");
-      }
-
-      const data = await response.json();
-      const aiText = data.choices[0].message.content;
-
-      // PRO LOGGING: Shows you the cost in the console
-      console.log(`Query Cost: ${data.usage.total_tokens} tokens used.`);
-      
-      setMessages(prev => [...prev, { role: "assistant", content: aiText }]);
-
-    } catch (error) {
-      console.error("Chat Error:", error);
-      
-      // SECURITY CHECK 4: Mock response fallback if credits are gone
-      const errorMessage = error.message === "QUOTA_EXCEEDED" 
-        ? "EduAI (Demo Mode): I've reached my daily search limit. In a production environment, I would provide a live search-based answer here!"
-        : "I'm having a technical moment. Please try again in 30 seconds.";
-
-      setMessages(prev => [...prev, { role: "assistant", content: errorMessage }]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    setMessages(prev => [...prev, { role: "assistant", content: aiText }]);
+  } catch (error) {
+    console.error("Chat Error:", error);
+    setMessages(prev => [...prev, { role: "assistant", content: "I'm in energy-saving mode. Try again shortly!" }]);
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className="fixed bottom-6 right-6 z-[999]">

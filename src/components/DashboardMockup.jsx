@@ -1,19 +1,33 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Zap, ArrowLeft, Brain, User, MessageSquare, ShieldCheck, Target, TrendingUp, Calendar, BookOpen } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  Zap, ArrowLeft, Brain, User, MessageSquare, 
+  ShieldCheck, Target, TrendingUp, Calendar, BookOpen 
+} from "lucide-react";
+
+// Ensure this path matches: src/data/universityData.js
+import { universityData } from "../data/universityData";
+
 export default function DashboardMockup({ goBack, onBook }) {
   const [mastery, setMastery] = useState(45);
   const [isAdjusted, setIsAdjusted] = useState(false);
+  const [filter, setFilter] = useState("All");
 
   const handleAdjust = () => {
     setIsAdjusted(true);
     setTimeout(() => setMastery(65), 500);
   };
 
+  // Filter Logic
+  const filteredUnis = filter === "All" 
+    ? universityData 
+    : universityData.filter(u => u.region === filter);
+
   return (
     <div className="min-h-screen bg-[#f8fafc] p-6 md:p-12">
       <div className="max-w-7xl mx-auto">
-        {/* HEADER AREA */}
+        
+        {/* --- HEADER AREA --- */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
           <div>
             <button onClick={goBack} className="flex items-center gap-2 text-slate-400 hover:text-indigo-600 mb-2 transition-all font-semibold">
@@ -33,7 +47,7 @@ export default function DashboardMockup({ goBack, onBook }) {
 
         <div className="grid lg:grid-cols-12 gap-8">
           
-          {/* LEFT COLUMN: 8 COLUMNS WIDE */}
+          {/* --- LEFT COLUMN: 8 COLUMNS WIDE --- */}
           <div className="lg:col-span-8 space-y-8">
             
             {/* 1. COGNITIVE PROGRESS MAP */}
@@ -64,7 +78,6 @@ export default function DashboardMockup({ goBack, onBook }) {
 
             {/* 2. ACTIVITY & RESOURCES GRID */}
             <div className="grid md:grid-cols-2 gap-8">
-              {/* Recommended Resources */}
               <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm">
                 <h4 className="font-bold mb-6 flex items-center gap-2"><BookOpen size={18} className="text-indigo-600" /> Curated For You</h4>
                 <div className="space-y-4">
@@ -77,7 +90,6 @@ export default function DashboardMockup({ goBack, onBook }) {
                 </div>
               </div>
 
-              {/* Weekly Streak/Activity */}
               <div className="bg-white p-8 rounded-[2.5rem] border border-slate-200 shadow-sm flex flex-col justify-between">
                 <h4 className="font-bold mb-4 flex items-center gap-2"><Calendar size={18} className="text-indigo-600" /> Learning Streak</h4>
                 <div className="flex justify-between items-end h-24 gap-2">
@@ -94,7 +106,71 @@ export default function DashboardMockup({ goBack, onBook }) {
               </div>
             </div>
 
-            {/* 3. ETHICS TRANSPARENCY LOG (New Section) */}
+            {/* 2.5 UNIVERSITY ADMISSION HUB (FILTERABLE) */}
+            <div className="bg-white p-8 rounded-[2.5rem] shadow-sm border border-slate-200">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                <h2 className="text-xl font-bold flex items-center gap-2">
+                  <Zap className="text-indigo-600" size={20} /> Admissions Hub 2026
+                </h2>
+                <div className="flex gap-2 bg-slate-100 p-1 rounded-xl">
+                  {["All", "USA", "Europe", "Asia"].map((reg) => (
+                    <button 
+                      key={reg}
+                      onClick={() => setFilter(reg)}
+                      className={`px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-lg transition-all ${
+                        filter === reg ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500 hover:text-indigo-400'
+                      }`}
+                    >
+                      {reg}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <AnimatePresence mode="popLayout">
+                  {filteredUnis.map((uni, index) => (
+                    <motion.div 
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      key={uni.name} 
+                      onClick={() => window.open(uni.url, "_blank")} 
+                      className="group p-5 bg-slate-50 rounded-[2rem] border border-slate-100 hover:border-indigo-200 hover:bg-white transition-all shadow-sm hover:shadow-md cursor-pointer"
+                    >
+                      <div className="flex justify-between items-start mb-3">
+                        <h4 className="font-bold text-slate-900 group-hover:text-indigo-600 transition-colors">{uni.name}</h4>
+                        <span className="px-2 py-1 bg-white border border-slate-200 text-slate-500 text-[9px] font-black rounded-lg uppercase tracking-tighter">
+                          {uni.region}
+                        </span>
+                      </div>
+                      <div className="space-y-2">
+                        <div className="flex items-center gap-2 text-xs text-slate-500">
+                          <Calendar size={14} className="text-indigo-400" />
+                          <span className="font-medium">Deadline:</span>
+                          <span className="text-slate-900 font-bold">{uni.deadline}</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-slate-500">
+                          <ShieldCheck size={14} className="text-indigo-400" />
+                          <span className="font-medium">Reqs:</span>
+                          <span className="text-slate-700 font-semibold truncate max-w-[150px]">{uni.tests}</span>
+                        </div>
+                      </div>
+                      <div className="mt-4 pt-4 border-t border-slate-200/50 flex justify-between items-center">
+                        <span className={`text-[10px] font-bold uppercase tracking-widest flex items-center gap-1 ${uni.status === "Closed" ? 'text-rose-500' : 'text-emerald-600'}`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${uni.status === "Closed" ? 'bg-rose-500' : 'bg-emerald-500'}`} /> 
+                          {uni.status}
+                        </span>
+                        <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest group-hover:translate-x-1 transition-transform">Visit Portal →</span>
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+              </div>
+            </div>
+
+            {/* 3. ETHICS TRANSPARENCY LOG */}
             <div className="bg-emerald-50/50 p-6 rounded-[2rem] border border-emerald-100">
                <h4 className="text-emerald-700 font-bold flex items-center gap-2 text-sm mb-4">
                  <ShieldCheck size={18} /> Explainable AI (XAI) Transparency Log
@@ -106,7 +182,7 @@ export default function DashboardMockup({ goBack, onBook }) {
             </div>
           </div>
 
-          {/* RIGHT COLUMN: 4 COLUMNS WIDE */}
+          {/* --- RIGHT COLUMN: 4 COLUMNS WIDE --- */}
           <div className="lg:col-span-4 space-y-8">
             
             {/* AI AGENT CARD */}
