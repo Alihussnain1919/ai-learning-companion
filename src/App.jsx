@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
+import ChatBot from "./components/ChatBot";
 // Components
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -84,6 +84,7 @@ export default function App() {
 
         </AnimatePresence>
       </main>
+      <ChatBot />
     </div>
   );
 }
