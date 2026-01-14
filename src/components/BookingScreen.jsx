@@ -14,7 +14,8 @@ export default function BookingScreen({ onConfirmCall, onBackToMain }) {
     setShowSuccess(true);
     // After 3 seconds, automatically go to main page
     setTimeout(() => {
-      onBackToMain();
+      // onBackToMain();
+      setShowSuccess(false);
     }, 3000);
   };
 
