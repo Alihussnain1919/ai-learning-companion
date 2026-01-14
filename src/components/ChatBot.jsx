@@ -6,7 +6,7 @@ export default function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([
-    { role: "assistant", content: "Hi! I'm your EduAI assistant. I'm optimized for accuracy and low-cost search. How can I help?" }
+    { role: "assistant", content: "Hi! I'm your AI EdTech assistant. I'm optimized for accuracy and low-cost search. How can I help?" }
   ]);
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);

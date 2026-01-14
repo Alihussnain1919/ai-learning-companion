@@ -23,7 +23,7 @@ export default function Navbar({ setView, currentView }) {
         {/* Logo Section */}
         <div className="flex items-center gap-2 cursor-pointer" onClick={() => { setView('landing'); window.scrollTo(0,0); }}>
           <div className="bg-indigo-600 p-2 rounded-xl text-white shadow-lg"><Brain size={24} /></div>
-          <span className="text-xl font-black">EduAI</span>
+          <span className="text-xl font-black">AI EdTech</span>
         </div>
 
         {/* Navigation Links */}
