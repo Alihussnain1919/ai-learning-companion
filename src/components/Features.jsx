@@ -3,7 +3,7 @@ import { Brain, Target, LineChart } from "lucide-react";
 export default function Features() {
   const data = [
     { icon: <Brain />, title: "Predictive Analytics", desc: "Our AI forecasts where you will struggle before you even start the lesson." },
-    { icon: <Target />, title: "Adaptive Curriculam", desc: "The platform rewrites itself daily based on your retention rates." },
+    { icon: <Target />, title: "Adaptive Curriculum", desc: "The platform rewrites itself daily based on your retention rates." },
     { icon: <LineChart />, title: "Skill Heatmaps", desc: "Visual proof of mastery across 50+ specialized domain areas." }
   ];
 

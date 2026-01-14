@@ -14,11 +14,14 @@ import BookingScreen from "./components/BookingScreen";
 import VideoCall from "./components/VideoCall";
 import Footer from "./components/Footer";
 import PracticeScreen from "./components/PracticeScreen"; // NEW IMPORT
+import CourseHub from "./components/CourseHub";
+import CourseContent from "./components/CourseContent";
 
 
 export default function App() {
   const [view, setView] = useState("landing"); 
   const [selectedTutor, setSelectedTutor] = useState(null);
+const [selectedCourse, setSelectedCourse] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -35,6 +38,13 @@ export default function App() {
           {view === "landing" && (
             <motion.div key="landing" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <Hero onExplore={() => setView("dashboard")} />
+
+                <div id="courses">
+                <CourseHub onSelectCourse={(course) => {
+                  setSelectedCourse(course);
+                  setView("coursecontent"); // Switch to the player view
+                }} />
+              </div>
               <div id="features"><Features /></div>
               <TutorMarketplace onViewProfile={(tutor) => {
                 setSelectedTutor(tutor);
@@ -50,7 +60,15 @@ export default function App() {
               <Footer />
             </motion.div>
           )}
-
+{view === "coursecontent" && (
+  <motion.div key="coursecontent" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <CourseContent 
+      course={selectedCourse} 
+      onBack={() => setView("landing")} 
+      onFinish={() => setView("dashboard")} // Redirect to AI Dashboard after learning
+    />
+  </motion.div>
+)}
           {/* TUTOR PROFILE VIEW */}
           {view === "profile" && (
             <motion.div key="profile" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}>
