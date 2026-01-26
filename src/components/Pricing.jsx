@@ -5,7 +5,7 @@ export default function Pricing({ onSelectAI, onSelectTutor, onSelectEnterprise 
   const plans = [
     {
       name: "Starter (Self-Paced)",
-      price: "€9.9",
+      price: "€9.99",
       description: "Perfect for students looking for AI-driven academic support.",
       features: ["Adaptive Study Paths", "Real-time AI Feedback", "Ethics & Privacy Dashboard", "Basic Analytics"],
       buttonText: "Launch AI Agent",
